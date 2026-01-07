@@ -362,7 +362,7 @@ class _UIProSearchAppBarState extends State<UIProSearchAppBar> {
         decoration: InputDecoration(
           hintText: widget.hint,
           hintStyle: theme.textStyle(
-            color: effectiveTextColor.withValues(alpha: 0.6),
+            color: effectiveTextColor.withOpacity(0.6),
           ),
           border: InputBorder.none,
         ),

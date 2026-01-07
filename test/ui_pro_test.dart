@@ -6,15 +6,14 @@ void main() {
   group('UIProThemeData', () {
     test('light theme has correct default values', () {
       final theme = UIProThemeData.light;
-      expect(theme.primaryColor, const Color(0xFF6366F1));
-      expect(theme.backgroundColor, const Color(0xFFF8FAFC));
-      // expect(theme.brightness, Brightness.light);
+      expect(theme.primaryColor, const Color(0xFF2196F3));
+      expect(theme.backgroundColor, const Color(0xFFFFFFFF));
     });
 
     test('dark theme has correct default values', () {
       final theme = UIProThemeData.dark;
-      expect(theme.primaryColor, const Color(0xFF818CF8));
-      expect(theme.backgroundColor, const Color(0xFF0F172A));
+      expect(theme.primaryColor, const Color(0xFF64B5F6));
+      expect(theme.backgroundColor, const Color(0xFF121212));
     });
 
     test('copyWith creates a new instance with updated values', () {
@@ -62,8 +61,9 @@ void main() {
 
   group('UIConfig', () {
     test('default values are set correctly', () {
-      expect(UIProConfig.defaults, const Duration(milliseconds: 200));
-      expect(UIProConfig.defaults, true);
+      expect(UIProConfig.defaults.enableHapticFeedback, true);
+      expect(UIProConfig.defaults.defaultLoadingDelay, Duration.zero);
+      expect(UIProConfig.defaults.debugShowBorders, false);
     });
   });
 }

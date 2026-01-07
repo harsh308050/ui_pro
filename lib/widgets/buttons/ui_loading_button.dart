@@ -298,9 +298,9 @@ class UIProLoadingButton extends StatelessWidget {
       child: InkWell(
         onTap: _isDisabled ? null : onPressed,
         borderRadius: BorderRadius.circular(effectiveBorderRadius),
-        splashColor: splashColor ?? Colors.grey.withValues(alpha: 0.2),
+        splashColor: splashColor ?? Colors.grey.withOpacity(0.2),
         highlightColor:
-            splashColor?.withValues(alpha: 0.1) ?? Colors.transparent,
+            splashColor?.withOpacity(0.1) ?? Colors.transparent,
         child: Container(
           height: effectiveHeight,
           padding: effectivePadding,
@@ -437,7 +437,7 @@ class UIProIconButton extends StatelessWidget {
         customBorder: const CircleBorder(),
         splashColor: splashColor ?? Colors.transparent,
         highlightColor:
-            splashColor?.withValues(alpha: 0.1) ?? Colors.transparent,
+            splashColor?.withOpacity(0.1) ?? Colors.transparent,
         child: Padding(
           padding: EdgeInsets.all(theme.spacingSM),
           child: isLoading

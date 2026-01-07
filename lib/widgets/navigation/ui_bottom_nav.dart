@@ -164,7 +164,7 @@ class UIProBottomNav extends StatelessWidget {
         boxShadow: elevation > 0
             ? [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.1),
+                  color: Colors.black.withOpacity(0.1),
                   blurRadius: elevation,
                   offset: const Offset(0, -2),
                 ),
@@ -222,7 +222,7 @@ class UIProBottomNav extends StatelessWidget {
           borderRadius: theme.largeBorderRadius,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.15),
+              color: Colors.black.withOpacity(0.15),
               blurRadius: elevation * 2,
               offset: const Offset(0, 4),
             ),

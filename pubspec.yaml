@@ -1,12 +1,19 @@
 name: ui_pro
 description: "A modular, theme-driven Flutter UI system with ready-made widgets and screens. Build consistent, beautiful apps with a single theme configuration."
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/harsh308050/ui_pro
 repository: https://github.com/harsh308050/ui_pro
 issue_tracker: https://github.com/harsh308050/ui_pro/issues
 
+topics:
+  - flutter
+  - userinterface
+  - widgets
+  - design-system
+  - theming
+
 environment:
-  sdk: ^3.10.4
+  sdk: ">=2.17.0 <4.0.0"
   flutter: ">=3.0.0"
 
 dependencies:

@@ -20,3 +20,9 @@ and this project follows [Semantic Versioning](https://semver.org/).
 ### Notes
 - This is the first stable public version
 - APIs may evolve based on community feedback
+
+
+## [1.0.1] - 2026-01-07
+
+### Notes
+- Added Minimum Flutter Version Support for most of flutter and dart sdk version
