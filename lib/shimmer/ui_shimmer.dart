@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import '../core/theme/ui_theme.dart';
 
 /// A customizable shimmer loading effect widget.
 ///
 /// Use [UIProShimmer] to show a loading placeholder with an animated
-/// shimmer gradient effect. The shimmer automatically uses theme colors.
+/// shimmer gradient effect.
 ///
 /// Example:
 /// ```dart
@@ -39,15 +38,12 @@ class UIProShimmer extends StatefulWidget {
   final double? borderRadius;
 
   /// Base color for shimmer (darker shade).
-  /// Defaults to theme's shimmerBaseColor.
   final Color? baseColor;
 
   /// Highlight color for shimmer (lighter shade).
-  /// Defaults to theme's shimmerHighlightColor.
   final Color? highlightColor;
 
   /// Duration of one shimmer animation cycle.
-  /// Defaults to theme's shimmerDuration.
   final Duration? duration;
 
   /// Whether the shimmer animation is enabled.
@@ -85,8 +81,8 @@ class UIProShimmer extends StatefulWidget {
     this.duration,
     this.enabled = true,
     this.direction = UIProShimmerDirection.leftToRight,
-  }) : child = null,
-       shape = UIProShimmerShape.rectangle;
+  })  : child = null,
+        shape = UIProShimmerShape.rectangle;
 
   /// Creates a circular shimmer placeholder.
   const UIProShimmer.circle({
@@ -97,11 +93,11 @@ class UIProShimmer extends StatefulWidget {
     this.duration,
     this.enabled = true,
     this.direction = UIProShimmerDirection.leftToRight,
-  }) : child = null,
-       width = size,
-       height = size,
-       borderRadius = null,
-       shape = UIProShimmerShape.circle;
+  })  : child = null,
+        width = size,
+        height = size,
+        borderRadius = null,
+        shape = UIProShimmerShape.circle;
 
   /// Creates a text-like shimmer placeholder.
   factory UIProShimmer.text({
@@ -161,8 +157,7 @@ class _UIProShimmerState extends State<UIProShimmer>
   }
 
   void _updateAnimation() {
-    final theme = UIProTheme.of(context);
-    final duration = widget.duration ?? theme.shimmerDuration;
+    final duration = widget.duration ?? const Duration(milliseconds: 1500);
 
     _controller.duration = duration;
 
@@ -194,20 +189,17 @@ class _UIProShimmerState extends State<UIProShimmer>
   }
 
   Widget _buildChild(BuildContext context) {
-    final theme = UIProTheme.of(context);
-
     if (widget.child != null) {
       return widget.child!;
     }
 
-    final effectiveBorderRadius =
-        widget.borderRadius ?? theme.effectiveShimmerBorderRadius;
+    final effectiveBorderRadius = widget.borderRadius ?? 12.0;
 
     return Container(
       width: widget.width,
       height: widget.height,
       decoration: BoxDecoration(
-        color: widget.baseColor ?? theme.shimmerBaseColor,
+        color: widget.baseColor ?? const Color(0xFFE0E0E0),
         shape: widget.shape == UIProShimmerShape.circle
             ? BoxShape.circle
             : BoxShape.rectangle,
@@ -219,11 +211,9 @@ class _UIProShimmerState extends State<UIProShimmer>
   }
 
   Widget _buildShimmer(BuildContext context) {
-    final theme = UIProTheme.of(context);
-    final baseColor = widget.baseColor ?? theme.shimmerBaseColor;
-    final highlightColor = widget.highlightColor ?? theme.shimmerHighlightColor;
-    final effectiveBorderRadius =
-        widget.borderRadius ?? theme.effectiveShimmerBorderRadius;
+    final baseColor = widget.baseColor ?? const Color(0xFFE0E0E0);
+    final highlightColor = widget.highlightColor ?? const Color(0xFFF5F5F5);
+    final effectiveBorderRadius = widget.borderRadius ?? 12.0;
 
     final gradient = _createGradient(baseColor, highlightColor);
 
@@ -343,9 +333,8 @@ class UIProShimmerList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = UIProTheme.of(context);
-    final effectiveSpacing = spacing ?? theme.spacingSM;
-    final effectivePadding = padding ?? EdgeInsets.all(theme.spacingMD);
+    final effectiveSpacing = spacing ?? 8.0;
+    final effectivePadding = padding ?? const EdgeInsets.all(16.0);
 
     if (horizontal) {
       return SizedBox(
@@ -376,18 +365,17 @@ class UIProShimmerList extends StatelessWidget {
   }
 
   Widget _defaultListItem(BuildContext context) {
-    final theme = UIProTheme.of(context);
     return Row(
       children: [
         const UIProShimmer.circle(size: 48),
-        SizedBox(width: theme.spacingMD),
+        const SizedBox(width: 16),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              UIProShimmer.text(height: theme.fontSizeBase),
-              SizedBox(height: theme.spacingXS),
-              UIProShimmer.text(width: 150, height: theme.fontSizeSmall),
+              UIProShimmer.text(height: 14),
+              const SizedBox(height: 4),
+              UIProShimmer.text(width: 150, height: 12),
             ],
           ),
         ),
@@ -433,9 +421,8 @@ class UIProShimmerGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = UIProTheme.of(context);
-    final effectiveSpacing = spacing ?? theme.spacingSM;
-    final effectivePadding = padding ?? EdgeInsets.all(theme.spacingMD);
+    final effectiveSpacing = spacing ?? 8.0;
+    final effectivePadding = padding ?? const EdgeInsets.all(16.0);
 
     return GridView.builder(
       shrinkWrap: true,
@@ -453,7 +440,7 @@ class UIProShimmerGrid extends StatelessWidget {
             UIProShimmer.box(
               width: double.infinity,
               height: double.infinity,
-              borderRadius: theme.borderRadius,
+              borderRadius: 12.0,
             );
       },
     );
@@ -490,8 +477,8 @@ class UIProShimmerScope extends InheritedWidget {
   /// Gets the shimmer loading state from context.
   /// Returns false if no [UIProShimmerScope] is found.
   static bool of(BuildContext context) {
-    final scope = context
-        .dependOnInheritedWidgetOfExactType<UIProShimmerScope>();
+    final scope =
+        context.dependOnInheritedWidgetOfExactType<UIProShimmerScope>();
     return scope?.isLoading ?? false;
   }
 
@@ -564,18 +551,18 @@ class UIProShimmerWrap extends StatelessWidget {
     this.width,
     double? height,
     this.borderRadius = 4,
-  }) : height = height ?? 14,
-       shape = UIProShimmerShape.rectangle;
+  })  : height = height ?? 14,
+        shape = UIProShimmerShape.rectangle;
 
   /// Creates a shimmer wrap for circular content (avatars, icons).
   const UIProShimmerWrap.circle({
     super.key,
     required this.child,
     required double size,
-  }) : width = size,
-       height = size,
-       borderRadius = null,
-       shape = UIProShimmerShape.circle;
+  })  : width = size,
+        height = size,
+        borderRadius = null,
+        shape = UIProShimmerShape.circle;
 
   /// Creates a shimmer wrap for box content (images, containers).
   const UIProShimmerWrap.box({

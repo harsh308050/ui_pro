@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../core/theme/ui_theme.dart';
-import '../../core/theme/ui_theme_data.dart';
 
-/// A theme-aware text field with built-in validation, focus animations,
+/// A customizable text field with built-in validation, focus animations,
 /// and password visibility toggle.
 ///
-/// [UIProTextField] automatically adapts to theme changes and provides
-/// a consistent input experience across your app.
+/// [UIProTextField] provides a consistent input experience across your app.
 ///
 /// Example:
 /// ```dart
@@ -175,7 +172,7 @@ class UIProTextField extends StatefulWidget {
   /// Custom error message for short password.
   final String shortPasswordMessage;
 
-  /// Creates a theme-aware text field.
+  /// Creates a customizable text field.
   const UIProTextField({
     super.key,
     this.controller,
@@ -266,15 +263,15 @@ class UIProTextField extends StatefulWidget {
     this.validateNotEmpty = false,
     this.emptyErrorMessage = "Email is required",
     this.invalidEmailMessage = "Please enter a valid email",
-  }) : isPassword = false,
-       keyboardType = TextInputType.emailAddress,
-       textCapitalization = TextCapitalization.none,
-       obscuringCharacter = '•',
-       maxLines = 1,
-       minLines = null,
-       fieldType = UIProTextFieldType.email,
-       minPasswordLength = 6,
-       shortPasswordMessage = "Password must be at least 6 characters";
+  })  : isPassword = false,
+        keyboardType = TextInputType.emailAddress,
+        textCapitalization = TextCapitalization.none,
+        obscuringCharacter = '•',
+        maxLines = 1,
+        minLines = null,
+        fieldType = UIProTextFieldType.email,
+        minPasswordLength = 6,
+        shortPasswordMessage = "Password must be at least 6 characters";
 
   /// Creates a password text field with visibility toggle.
   const UIProTextField.password({
@@ -316,15 +313,15 @@ class UIProTextField extends StatefulWidget {
     this.emptyErrorMessage = "Password is required",
     this.minPasswordLength = 6,
     this.shortPasswordMessage = "Password must be at least 6 characters",
-  }) : isPassword = true,
-       keyboardType = TextInputType.visiblePassword,
-       textCapitalization = TextCapitalization.none,
-       maxLines = 1,
-       minLines = null,
-       suffixIcon = null,
-       suffix = null,
-       fieldType = UIProTextFieldType.password,
-       invalidEmailMessage = "Please enter a valid email";
+  })  : isPassword = true,
+        keyboardType = TextInputType.visiblePassword,
+        textCapitalization = TextCapitalization.none,
+        maxLines = 1,
+        minLines = null,
+        suffixIcon = null,
+        suffix = null,
+        fieldType = UIProTextFieldType.password,
+        invalidEmailMessage = "Please enter a valid email";
 
   /// Creates a multiline text area.
   const UIProTextField.multiline({
@@ -366,15 +363,15 @@ class UIProTextField extends StatefulWidget {
     this.variant = UIProTextFieldVariant.outlined,
     this.validateNotEmpty = false,
     this.emptyErrorMessage = "This field is required",
-  }) : isPassword = false,
-       keyboardType = TextInputType.multiline,
-       textInputAction = TextInputAction.newline,
-       onSubmitted = null,
-       obscuringCharacter = '•',
-       fieldType = UIProTextFieldType.text,
-       invalidEmailMessage = "Please enter a valid email",
-       minPasswordLength = 6,
-       shortPasswordMessage = "Password must be at least 6 characters";
+  })  : isPassword = false,
+        keyboardType = TextInputType.multiline,
+        textInputAction = TextInputAction.newline,
+        onSubmitted = null,
+        obscuringCharacter = '•',
+        fieldType = UIProTextFieldType.text,
+        invalidEmailMessage = "Please enter a valid email",
+        minPasswordLength = 6,
+        shortPasswordMessage = "Password must be at least 6 characters";
 
   @override
   State<UIProTextField> createState() => _UIProTextFieldState();
@@ -492,54 +489,74 @@ class _UIProTextFieldState extends State<UIProTextField>
 
   @override
   Widget build(BuildContext context) {
-    final theme = UIProTheme.of(context);
+    final materialTheme = Theme.of(context);
 
-    final effectiveBorderRadius = widget.borderRadius ?? theme.borderRadius;
-    final effectiveBackgroundColor =
-        widget.backgroundColor ?? theme.effectiveTextFieldBackgroundColor;
-    final effectiveBorderWidth = widget.borderWidth ?? theme.borderWidth;
+    final effectiveBorderRadius = widget.borderRadius ?? 12.0;
+    final effectiveBackgroundColor = widget.backgroundColor ??
+        materialTheme.inputDecorationTheme.fillColor ??
+        const Color(0xFFF5F5F5);
+    final effectiveBorderWidth = widget.borderWidth ?? 1.0;
 
     // Determine border color based on state
     Color currentBorderColor;
     if (_effectiveErrorText != null) {
-      currentBorderColor = widget.errorBorderColor ?? theme.errorColor;
+      currentBorderColor =
+          widget.errorBorderColor ?? materialTheme.colorScheme.error;
     } else if (_isFocused) {
       currentBorderColor =
-          widget.focusedBorderColor ??
-          theme.effectiveTextFieldFocusedBorderColor;
+          widget.focusedBorderColor ?? materialTheme.primaryColor;
     } else {
-      currentBorderColor =
-          widget.borderColor ?? theme.effectiveTextFieldBorderColor;
+      currentBorderColor = widget.borderColor ?? materialTheme.dividerColor;
     }
 
-    final effectiveContentPadding =
-        widget.contentPadding ?? theme.effectiveTextFieldContentPadding;
+    final effectiveContentPadding = widget.contentPadding ??
+        const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0);
 
-    final effectiveTextStyle = theme
-        .textStyle(
-          fontSize: theme.fontSizeBase,
-          color: widget.enabled ? theme.textColor : theme.disabledColor,
-        )
-        .merge(widget.textStyle);
+    final effectiveTextStyle = materialTheme.textTheme.bodyLarge
+            ?.copyWith(
+              color: widget.enabled
+                  ? materialTheme.textTheme.bodyLarge?.color
+                  : materialTheme.disabledColor,
+            )
+            .merge(widget.textStyle) ??
+        TextStyle(
+          fontSize: 16.0,
+          color: widget.enabled ? Colors.black87 : materialTheme.disabledColor,
+        ).merge(widget.textStyle);
 
-    final effectiveHintStyle = theme
-        .textStyle(
-          fontSize: theme.fontSizeBase,
-          color: theme.effectiveTextFieldHintColor,
-        )
-        .merge(widget.hintStyle);
+    final effectiveHintStyle = materialTheme.textTheme.bodyLarge
+            ?.copyWith(
+              color: materialTheme.hintColor,
+            )
+            .merge(widget.hintStyle) ??
+        TextStyle(
+          fontSize: 16.0,
+          color: materialTheme.hintColor,
+        ).merge(widget.hintStyle);
 
-    final effectiveLabelStyle = theme
-        .textStyle(
-          fontSize: theme.fontSizeSmall,
-          fontWeight: theme.fontWeightMedium,
-          color: _isFocused ? theme.primaryColor : theme.textSecondaryColor,
-        )
-        .merge(widget.labelStyle);
+    final effectiveLabelStyle = materialTheme.textTheme.bodySmall
+            ?.copyWith(
+              fontWeight: FontWeight.w500,
+              color: _isFocused
+                  ? materialTheme.primaryColor
+                  : materialTheme.textTheme.bodySmall?.color?.withOpacity(0.6),
+            )
+            .merge(widget.labelStyle) ??
+        TextStyle(
+          fontSize: 14.0,
+          fontWeight: FontWeight.w500,
+          color: _isFocused ? materialTheme.primaryColor : Colors.black54,
+        ).merge(widget.labelStyle);
 
-    final effectiveErrorStyle = theme
-        .textStyle(fontSize: theme.fontSizeSmall, color: theme.errorColor)
-        .merge(widget.errorStyle);
+    final effectiveErrorStyle = materialTheme.textTheme.bodySmall
+            ?.copyWith(
+              color: materialTheme.colorScheme.error,
+            )
+            .merge(widget.errorStyle) ??
+        TextStyle(
+          fontSize: 14.0,
+          color: materialTheme.colorScheme.error,
+        ).merge(widget.errorStyle);
 
     // Build prefix
     Widget? prefixWidget;
@@ -547,11 +564,11 @@ class _UIProTextFieldState extends State<UIProTextField>
       prefixWidget = widget.prefix;
     } else if (widget.prefixIcon != null) {
       prefixWidget = Padding(
-        padding: EdgeInsets.only(right: theme.spacingSM),
+        padding: const EdgeInsets.only(right: 8.0),
         child: Icon(
           widget.prefixIcon,
           size: 20,
-          color: _isFocused ? theme.primaryColor : theme.textSecondaryColor,
+          color: _isFocused ? materialTheme.primaryColor : Colors.black54,
         ),
       );
     }
@@ -562,13 +579,13 @@ class _UIProTextFieldState extends State<UIProTextField>
       suffixWidget = GestureDetector(
         onTap: _toggleObscure,
         child: Padding(
-          padding: EdgeInsets.only(left: theme.spacingSM),
+          padding: const EdgeInsets.only(left: 8.0),
           child: Icon(
             _obscureText
                 ? Icons.visibility_outlined
                 : Icons.visibility_off_outlined,
             size: 20,
-            color: theme.textSecondaryColor,
+            color: Colors.black54,
           ),
         ),
       );
@@ -576,18 +593,17 @@ class _UIProTextFieldState extends State<UIProTextField>
       suffixWidget = widget.suffix;
     } else if (widget.suffixIcon != null) {
       suffixWidget = Padding(
-        padding: EdgeInsets.only(left: theme.spacingSM),
+        padding: const EdgeInsets.only(left: 8.0),
         child: Icon(
           widget.suffixIcon,
           size: 20,
-          color: theme.textSecondaryColor,
+          color: Colors.black54,
         ),
       );
     }
 
     // Build the text field based on variant
     Widget textField = _buildTextField(
-      theme: theme,
       borderRadius: effectiveBorderRadius,
       backgroundColor: effectiveBackgroundColor,
       borderColor: currentBorderColor,
@@ -597,6 +613,7 @@ class _UIProTextFieldState extends State<UIProTextField>
       hintStyle: effectiveHintStyle,
       prefixWidget: prefixWidget,
       suffixWidget: suffixWidget,
+      materialTheme: materialTheme,
     );
 
     // Wrap with label and error
@@ -606,11 +623,11 @@ class _UIProTextFieldState extends State<UIProTextField>
       children: [
         if (widget.label != null) ...[
           AnimatedDefaultTextStyle(
-            duration: theme.animationDurationFast,
+            duration: const Duration(milliseconds: 150),
             style: effectiveLabelStyle,
             child: Text(widget.label!),
           ),
-          SizedBox(height: theme.spacingXS),
+          const SizedBox(height: 4.0),
         ],
         AnimatedBuilder(
           animation: _borderAnimation,
@@ -619,16 +636,19 @@ class _UIProTextFieldState extends State<UIProTextField>
           },
         ),
         if (_effectiveErrorText != null) ...[
-          SizedBox(height: theme.spacingXS),
+          const SizedBox(height: 4.0),
           Text(_effectiveErrorText!, style: effectiveErrorStyle),
         ] else if (widget.helperText != null) ...[
-          SizedBox(height: theme.spacingXS),
+          const SizedBox(height: 4.0),
           Text(
             widget.helperText!,
-            style: theme.textStyle(
-              fontSize: theme.fontSizeSmall,
-              color: theme.textSecondaryColor,
-            ),
+            style: materialTheme.textTheme.bodySmall?.copyWith(
+                  color: Colors.black54,
+                ) ??
+                const TextStyle(
+                  fontSize: 14.0,
+                  color: Colors.black54,
+                ),
           ),
         ],
       ],
@@ -636,7 +656,6 @@ class _UIProTextFieldState extends State<UIProTextField>
   }
 
   Widget _buildTextField({
-    required UIProThemeData theme,
     required double borderRadius,
     required Color backgroundColor,
     required Color borderColor,
@@ -646,6 +665,7 @@ class _UIProTextFieldState extends State<UIProTextField>
     required TextStyle hintStyle,
     Widget? prefixWidget,
     Widget? suffixWidget,
+    required ThemeData materialTheme,
   }) {
     InputBorder border;
     InputBorder focusedBorder;
@@ -660,16 +680,14 @@ class _UIProTextFieldState extends State<UIProTextField>
         focusedBorder = OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),
           borderSide: BorderSide(
-            color:
-                widget.focusedBorderColor ??
-                theme.effectiveTextFieldFocusedBorderColor,
+            color: widget.focusedBorderColor ?? materialTheme.primaryColor,
             width: widget.animateFocus ? _borderAnimation.value : 2,
           ),
         );
         errorBorder = OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),
           borderSide: BorderSide(
-            color: widget.errorBorderColor ?? theme.errorColor,
+            color: widget.errorBorderColor ?? materialTheme.colorScheme.error,
             width: borderWidth,
           ),
         );
@@ -682,16 +700,14 @@ class _UIProTextFieldState extends State<UIProTextField>
         focusedBorder = OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),
           borderSide: BorderSide(
-            color:
-                widget.focusedBorderColor ??
-                theme.effectiveTextFieldFocusedBorderColor,
+            color: widget.focusedBorderColor ?? materialTheme.primaryColor,
             width: 2,
           ),
         );
         errorBorder = OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),
           borderSide: BorderSide(
-            color: widget.errorBorderColor ?? theme.errorColor,
+            color: widget.errorBorderColor ?? materialTheme.colorScheme.error,
             width: 2,
           ),
         );
@@ -702,15 +718,13 @@ class _UIProTextFieldState extends State<UIProTextField>
         );
         focusedBorder = UnderlineInputBorder(
           borderSide: BorderSide(
-            color:
-                widget.focusedBorderColor ??
-                theme.effectiveTextFieldFocusedBorderColor,
+            color: widget.focusedBorderColor ?? materialTheme.primaryColor,
             width: 2,
           ),
         );
         errorBorder = UnderlineInputBorder(
           borderSide: BorderSide(
-            color: widget.errorBorderColor ?? theme.errorColor,
+            color: widget.errorBorderColor ?? materialTheme.colorScheme.error,
             width: 2,
           ),
         );
@@ -740,8 +754,7 @@ class _UIProTextFieldState extends State<UIProTextField>
       decoration: InputDecoration(
         hintText: widget.hint,
         hintStyle: hintStyle,
-        filled:
-            widget.variant == UIProTextFieldVariant.filled ||
+        filled: widget.variant == UIProTextFieldVariant.filled ||
             widget.variant == UIProTextFieldVariant.outlined,
         fillColor: backgroundColor,
         contentPadding: contentPadding,

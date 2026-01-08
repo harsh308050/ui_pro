@@ -1,17 +1,16 @@
 # UI Pro
 
-A modular, theme-driven Flutter UI system that provides ready-made, production-ready common UI widgets and screens where a **single global theme configuration** controls the entire UI appearance.
+A collection of customizable Flutter UI widgets and components that work seamlessly with Material Theme. Provides ready-made, production-ready common UI widgets with built-in loading states and animations.
 
 [![pub package](https://img.shields.io/pub/v/ui_pro.svg)](https://pub.dev/packages/ui_pro)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## ✨ Features
 
-- **🎨 Theme System** - Single source of truth for all UI properties
 - **🔘 Smart Widgets** - Loading buttons, text fields, lists with shimmer
-- **🧭 Navigation** - Theme-aware app bars and bottom navigation
-- **📱 Ready-made Screens** - Auth screens (login, signup, forgot password, splash)
-- **✨ Shimmer System** - Global shimmer configuration for loading states
+- **🧭 Navigation** - Customizable app bars and bottom navigation
+- **✨ Shimmer System** - Beautiful loading placeholders for better UX
+- **🎨 Material Compatible** - Works with Flutter's Material Theme
 - **🔌 No Lock-in** - Works with BLoC, Provider, Riverpod, setState, or any state management
 - **📦 Modular** - Import only what you need
 
@@ -35,28 +34,14 @@ dependencies:
 
 ### Basic Setup
 
-Wrap your app with `UIProTheme` to provide theme data to all widgets:
+Just import and use - widgets will automatically adapt to your app's Material Theme:
 
 ```dart
 import 'package:flutter/material.dart';
 import 'package:ui_pro/ui_pro.dart';
 
 void main() {
-  runApp(
-    UIProTheme(
-      data: UIProThemeData(
-        primaryColor: Colors.blue,
-        secondaryColor: Colors.purple,
-        backgroundColor: Colors.white,
-        textColor: Colors.black,
-        borderRadius: 12,
-        fontFamily: "Poppins",
-        shimmerBaseColor: Colors.grey.shade300,
-        shimmerHighlightColor: Colors.grey.shade100,
-      ),
-      child: const MyApp(),
-    ),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -65,14 +50,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LoginScreen(
-        onLogin: (email, password) async {
-          // Handle login
-        },
-        onSignupTap: () {
-          // Navigate to signup
-        },
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        // Your app's theme configuration
       ),
+      home: const HomePage(),
     );
   }
 }
@@ -80,187 +62,102 @@ class MyApp extends StatelessWidget {
 
 ## 📖 Usage
 
-### Theme Access
-
-Access theme anywhere using the context extension:
-
-```dart
-final theme = context.UIProTheme;
-print(theme.primaryColor);
-print(theme.borderRadius);
-```
-
-Or use the static method:
-
-```dart
-final theme = UIProTheme.of(context);
-```
-
-### Theme Presets
-
-Use built-in presets:
-
-```dart
-// Light theme (default)
-UIProTheme(data: UIProThemeData.light, child: MyApp())
-
-// Dark theme
-UIProTheme(data: UIProThemeData.dark, child: MyApp())
-```
-
----
-
-## 🧩 Widgets
-
-### UIProLoadingButton
+### UIProButton
 
 A button with built-in loading state:
 
 ```dart
-UIProLoadingButton(
+UIProButton(
   text: "Login",
   isLoading: isLoading,
   onPressed: () => handleLogin(),
 )
+```
 
-// Outlined variant
-UIProLoadingButton.outlined(
-  text: "Cancel",
-  onPressed: () => cancel(),
-)
+With custom styling:
 
-// Text variant
-UIProLoadingButton.text(
-  text: "Learn More",
-  onPressed: () => showDetails(),
+```dart
+UIProButton(
+  text: "Submit",
+  isLoading: false,
+  onPressed: () {},
+  backgroundColor: Colors.green,
+  textColor: Colors.white,
+  borderRadius: 8,
 )
 ```
 
 ### UIProTextField
 
-A text field with validation, focus animations, and password toggle:
+Text field with validation and animations:
 
 ```dart
 UIProTextField(
   hint: "Email",
   controller: emailController,
-  prefixIcon: Icons.email_outlined,
   keyboardType: TextInputType.emailAddress,
   errorText: emailError,
 )
+```
 
-// Password field with visibility toggle
+Password field with visibility toggle:
+
+```dart
 UIProTextField.password(
   hint: "Password",
   controller: passwordController,
-  errorText: passwordError,
-)
-
-// Multiline text area
-UIProTextField.multiline(
-  hint: "Description",
-  controller: descController,
-  maxLines: 5,
+  validateNotEmpty: true,
 )
 ```
 
-### UIListView
+### UIProListView
 
-A list view that automatically shows shimmer while loading:
+List with automatic shimmer loading:
 
 ```dart
-UIListView(
+UIProListView(
   isLoading: isLoading,
   itemCount: items.length,
   itemBuilder: (context, index) => ListTile(
     title: Text(items[index].title),
   ),
 )
-
-// With custom shimmer
-UIListView(
-  isLoading: isLoading,
-  itemCount: items.length,
-  shimmerItemBuilder: (context, index) => MyCustomShimmer(),
-  itemBuilder: (context, index) => MyListItem(items[index]),
-)
 ```
 
-### UIGridView
+### UIProAppBar
 
-A grid view with shimmer loading state:
-
-```dart
-UIGridView(
-  isLoading: isLoading,
-  itemCount: products.length,
-  crossAxisCount: 2,
-  itemBuilder: (context, index) => ProductCard(products[index]),
-)
-```
-
-### UIAppBar
-
-A theme-aware app bar:
+Customizable app bar:
 
 ```dart
-UIAppBar(
+UIProAppBar(
   title: "Home",
   showBackButton: true,
-  onBackPressed: () => Navigator.pop(context),
   actions: [
-    UIAppBarAction(
+    UIProAppBarAction(
       icon: Icons.search,
       onPressed: () => openSearch(),
     ),
-    UIAppBarAction(
-      icon: Icons.notifications,
-      badge: "3",
-      onPressed: () => openNotifications(),
-    ),
   ],
-)
-
-// Transparent variant
-UIAppBar.transparent(
-  title: "Profile",
-  showBackButton: true,
 )
 ```
 
-### UIBottomNav
+### UIProBottomNav
 
-A modern bottom navigation bar with animated indicator:
+Bottom navigation with animations:
 
 ```dart
-UIBottomNav(
+UIProBottomNav(
   items: [
-    UIBottomNavItem(icon: Icons.home, label: "Home"),
-    UIBottomNavItem(icon: Icons.search, label: "Search"),
-    UIBottomNavItem(
-      icon: Icons.notifications,
-      label: "Alerts",
-      badge: "5",
-    ),
-    UIBottomNavItem(icon: Icons.person, label: "Profile"),
+    UIProBottomNavItem(icon: Icons.home, label: "Home"),
+    UIProBottomNavItem(icon: Icons.search, label: "Search"),
+    UIProBottomNavItem(icon: Icons.person, label: "Profile"),
   ],
-  currentIndex: selectedIndex,
-  onChanged: (index) => setState(() => selectedIndex = index),
-)
-
-// Floating variant
-UIBottomNav.floating(
-  items: [...],
   currentIndex: selectedIndex,
   onChanged: (index) => setState(() => selectedIndex = index),
 )
 ```
 
----
-
 ## ✨ Shimmer
-
-### UIProShimmer
 
 Create shimmer loading placeholders:
 
@@ -273,21 +170,7 @@ UIProShimmer.circle(size: 48)
 
 // Text-like shimmer
 UIProShimmer.text(width: 150, height: 14)
-
-// Custom child with shimmer effect
-UIProShimmer(
-  child: Container(
-    width: 200,
-    height: 100,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(12),
-    ),
-  ),
-)
 ```
-
-### UIProShimmerList & UIProShimmerGrid
 
 Pre-built shimmer lists and grids:
 
@@ -295,7 +178,6 @@ Pre-built shimmer lists and grids:
 // Shimmer list
 UIProShimmerList(
   itemCount: 5,
-  itemBuilder: (context, index) => MyShimmerItem(),
 )
 
 // Shimmer grid
@@ -305,134 +187,24 @@ UIProShimmerGrid(
 )
 ```
 
----
+## 🎨 Customization
 
-## 📱 Screens
-
-### SplashScreen
+All widgets support extensive customization through their properties. They respect your app's Material Theme while allowing per-widget overrides:
 
 ```dart
-SplashScreen(
-  logo: Image.asset('assets/logo.png'),
-  appName: "My App",
-  tagline: "Welcome to the future",
-  onInitialized: () {
-    Navigator.pushReplacement(context, ...);
-  },
+UIProButton(
+  text: "Custom",
+  backgroundColor: Colors.red,  // Override material theme
+  borderRadius: 24,              // Custom styling
+  onPressed: () {},
+)
+
+UIProTextField(
+  hint: "Email",
+  backgroundColor: Colors.grey[100],  // Custom background
+  focusedBorderColor: Colors.green,   // Custom focus color
 )
 ```
-
-### LoginScreen
-
-```dart
-LoginScreen(
-  logo: Image.asset('assets/logo.png'),
-  onLogin: (email, password) async {
-    await authService.login(email, password);
-  },
-  onSignupTap: () => Navigator.push(context, ...),
-  onForgotPasswordTap: () => Navigator.push(context, ...),
-  emailError: emailValidationError,
-  passwordError: passwordValidationError,
-  showSocialLogin: true,
-  onSocialLogin: (provider) => handleSocialLogin(provider),
-)
-```
-
-### SignupScreen
-
-```dart
-SignupScreen(
-  onSignup: (name, email, password) async {
-    await authService.register(name, email, password);
-  },
-  onLoginTap: () => Navigator.pop(context),
-  showTermsCheckbox: true,
-)
-```
-
-### ForgotPasswordScreen
-
-```dart
-ForgotPasswordScreen(
-  onSubmit: (email) async {
-    await authService.sendPasswordReset(email);
-  },
-  onBackTap: () => Navigator.pop(context),
-)
-```
-
----
-
-## 🎨 Theme Properties
-
-`UIProThemeData` supports extensive customization:
-
-```dart
-UIProThemeData(
-  // Core Colors
-  primaryColor: Colors.blue,
-  secondaryColor: Colors.purple,
-  backgroundColor: Colors.white,
-  surfaceColor: Colors.grey.shade100,
-  textColor: Colors.black,
-  textSecondaryColor: Colors.grey,
-  errorColor: Colors.red,
-  successColor: Colors.green,
-  warningColor: Colors.orange,
-  dividerColor: Colors.grey.shade300,
-  disabledColor: Colors.grey,
-
-  // Typography
-  fontFamily: "Poppins",
-  fontSizeBase: 14,
-  fontSizeSmall: 12,
-  fontSizeLarge: 16,
-  fontSizeXLarge: 20,
-
-  // Spacing & Border Radius
-  spacingXS: 4,
-  spacingSM: 8,
-  spacingMD: 16,
-  spacingLG: 24,
-  spacingXL: 32,
-  borderRadius: 12,
-  borderRadiusSmall: 8,
-  borderRadiusLarge: 16,
-
-  // Button Styles
-  buttonHeight: 48,
-  buttonElevation: 0,
-  buttonTextColor: Colors.white,
-
-  // TextField Styles
-  textFieldBackgroundColor: Colors.grey.shade100,
-  textFieldBorderColor: Colors.grey.shade300,
-  textFieldFocusedBorderColor: Colors.blue,
-
-  // Shimmer
-  shimmerBaseColor: Colors.grey.shade300,
-  shimmerHighlightColor: Colors.grey.shade100,
-  shimmerDuration: Duration(milliseconds: 1500),
-
-  // AppBar
-  appBarBackgroundColor: Colors.blue,
-  appBarElevation: 0,
-  appBarCenterTitle: true,
-
-  // Bottom Navigation
-  bottomNavBackgroundColor: Colors.white,
-  bottomNavSelectedColor: Colors.blue,
-  bottomNavUnselectedColor: Colors.grey,
-  bottomNavElevation: 8,
-
-  // Animation
-  animationDuration: Duration(milliseconds: 300),
-  animationCurve: Curves.easeInOut,
-)
-```
-
----
 
 ## 🧠 Design Philosophy
 
@@ -446,29 +218,9 @@ All widgets work with any state management solution:
 - ✅ GetX
 - ✅ MobX
 
-### No Forced Navigation
+### Material Theme Compatible
 
-Screens expose **callbacks only**, no Navigator calls:
-
-```dart
-LoginScreen(
-  onLogin: (email, password) async { ... },
-  onSignupTap: () { ... },  // You handle navigation
-)
-```
-
-### Highly Customizable
-
-Every widget accepts overrides:
-
-```dart
-UIProLoadingButton(
-  text: "Custom",
-  backgroundColor: Colors.red,  // Override theme
-  borderRadius: 24,              // Override theme
-  onPressed: () {},
-)
-```
+Widgets automatically adapt to your app's Material Theme while providing customization options through widget properties.
 
 ---
 

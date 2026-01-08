@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../core/theme/ui_theme.dart';
-import '../../core/theme/ui_theme_data.dart';
 
-/// A theme-aware app bar with consistent styling.
+/// A customizable app bar with consistent styling.
 ///
-/// [UIProAppBar] automatically adapts to theme changes and provides
-/// a consistent app bar experience across your app.
+/// [UIProAppBar] provides a consistent app bar experience across your app.
 ///
 /// Example:
 /// ```dart
@@ -84,7 +81,7 @@ class UIProAppBar extends StatelessWidget implements PreferredSizeWidget {
   /// Whether to automatically imply leading.
   final bool automaticallyImplyLeading;
 
-  /// Creates a theme-aware app bar.
+  /// Creates a customizable app bar.
   const UIProAppBar({
     super.key,
     this.title,
@@ -124,10 +121,10 @@ class UIProAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.systemOverlayStyle,
     this.flexibleSpace,
     this.automaticallyImplyLeading = true,
-  }) : backgroundColor = Colors.transparent,
-       elevation = 0,
-       isSliver = false,
-       largeTitle = false;
+  })  : backgroundColor = Colors.transparent,
+        elevation = 0,
+        isSliver = false,
+        largeTitle = false;
 
   @override
   Size get preferredSize =>
@@ -135,23 +132,29 @@ class UIProAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = UIProTheme.of(context);
+    final materialTheme = Theme.of(context);
 
-    final effectiveBackgroundColor =
-        backgroundColor ?? theme.effectiveAppBarBackgroundColor;
-    final effectiveForegroundColor =
-        foregroundColor ?? theme.effectiveAppBarForegroundColor;
-    final effectiveElevation = elevation ?? theme.appBarElevation;
-    final effectiveCenterTitle = centerTitle ?? theme.appBarCenterTitle;
+    final effectiveBackgroundColor = backgroundColor ??
+        materialTheme.appBarTheme.backgroundColor ??
+        materialTheme.primaryColor;
+    final effectiveForegroundColor = foregroundColor ??
+        materialTheme.appBarTheme.foregroundColor ??
+        Colors.white;
+    final effectiveElevation =
+        elevation ?? materialTheme.appBarTheme.elevation ?? 4.0;
+    final effectiveCenterTitle = centerTitle ?? true;
 
-    final effectiveTitleStyle = theme
-        .textStyle(
-          fontSize: theme.fontSizeLarge,
-          fontWeight: theme.fontWeightMedium,
+    final effectiveTitleStyle = materialTheme.textTheme.titleLarge
+            ?.copyWith(
+              fontWeight: FontWeight.w500,
+              color: effectiveForegroundColor,
+            )
+            .merge(titleStyle) ??
+        TextStyle(
+          fontSize: 18.0,
+          fontWeight: FontWeight.w500,
           color: effectiveForegroundColor,
-        )
-        .merge(theme.appBarTitleStyle)
-        .merge(titleStyle);
+        ).merge(titleStyle);
 
     // Build title widget
     Widget? titleWidget;
@@ -186,7 +189,7 @@ class UIProAppBar extends StatelessWidget implements PreferredSizeWidget {
         if (action.child != null) {
           return action.child!;
         }
-        return _buildActionButton(action, effectiveForegroundColor, theme);
+        return _buildActionButton(action, effectiveForegroundColor);
       }).toList();
     }
 
@@ -227,7 +230,6 @@ class UIProAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget _buildActionButton(
     UIProAppBarAction action,
     Color foregroundColor,
-    UIProThemeData theme,
   ) {
     Widget button = IconButton(
       icon: action.badge != null
@@ -341,12 +343,14 @@ class _UIProSearchAppBarState extends State<UIProSearchAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = UIProTheme.of(context);
+    final materialTheme = Theme.of(context);
 
-    final effectiveBackgroundColor =
-        widget.backgroundColor ?? theme.effectiveAppBarBackgroundColor;
-    final effectiveTextColor =
-        widget.textColor ?? theme.effectiveAppBarForegroundColor;
+    final effectiveBackgroundColor = widget.backgroundColor ??
+        materialTheme.appBarTheme.backgroundColor ??
+        materialTheme.primaryColor;
+    final effectiveTextColor = widget.textColor ??
+        materialTheme.appBarTheme.foregroundColor ??
+        Colors.white;
 
     return AppBar(
       backgroundColor: effectiveBackgroundColor,
@@ -358,11 +362,12 @@ class _UIProSearchAppBarState extends State<UIProSearchAppBar> {
       title: TextField(
         controller: _controller,
         autofocus: widget.autofocus,
-        style: theme.textStyle(color: effectiveTextColor),
+        style: TextStyle(color: effectiveTextColor, fontSize: 16.0),
         decoration: InputDecoration(
           hintText: widget.hint,
-          hintStyle: theme.textStyle(
+          hintStyle: TextStyle(
             color: effectiveTextColor.withOpacity(0.6),
+            fontSize: 16.0,
           ),
           border: InputBorder.none,
         ),

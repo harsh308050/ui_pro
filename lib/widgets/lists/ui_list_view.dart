@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/ui_theme.dart';
-import '../../core/theme/ui_theme_data.dart';
 import '../../shimmer/ui_shimmer.dart';
 
-/// A theme-aware list view with built-in shimmer loading state.
+/// A customizable list view with built-in shimmer loading state.
 ///
 /// [UIProListView] automatically shows shimmer placeholders while loading
 /// and transitions to actual content when data is ready.
@@ -159,17 +157,16 @@ class UIProListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = UIProTheme.of(context);
-    final effectivePadding = padding ?? EdgeInsets.all(theme.spacingMD);
+    final effectivePadding = padding ?? const EdgeInsets.all(16.0);
 
     // Auto-shimmer mode: use same itemBuilder wrapped with shimmer scope
     if (useAutoShimmer) {
-      return _buildAutoShimmerList(context, theme, effectivePadding);
+      return _buildAutoShimmerList(context, effectivePadding);
     }
 
     // Show shimmer while loading (traditional mode)
     if (isLoading) {
-      return _buildShimmerList(context, theme, effectivePadding);
+      return _buildShimmerList(context, effectivePadding);
     }
 
     // Show empty state if no items
@@ -209,7 +206,6 @@ class UIProListView extends StatelessWidget {
   /// Builds list with auto-shimmer using the same itemBuilder.
   Widget _buildAutoShimmerList(
     BuildContext context,
-    UIProThemeData theme,
     EdgeInsets padding,
   ) {
     // Determine item count based on loading state
@@ -262,7 +258,6 @@ class UIProListView extends StatelessWidget {
 
   Widget _buildShimmerList(
     BuildContext context,
-    UIProThemeData theme,
     EdgeInsets padding,
   ) {
     final shimmerBuilder = shimmerItemBuilder ?? _defaultShimmerBuilder;
@@ -290,73 +285,71 @@ class UIProListView extends StatelessWidget {
   }
 
   Widget _defaultShimmerBuilder(BuildContext context, int index) {
-    final theme = UIProTheme.of(context);
-
     switch (shimmerType) {
       case UIProListShimmerType.listItem:
-        return _buildListItemShimmer(context, theme);
+        return _buildListItemShimmer(context);
       case UIProListShimmerType.card:
-        return _buildCardShimmer(context, theme);
+        return _buildCardShimmer(context);
       case UIProListShimmerType.simple:
-        return _buildSimpleShimmer(context, theme);
+        return _buildSimpleShimmer(context);
     }
   }
 
-  Widget _buildListItemShimmer(BuildContext context, UIProThemeData theme) {
+  Widget _buildListItemShimmer(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: theme.spacingSM),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
         children: [
           if (shimmerShowAvatar) ...[
             const UIProShimmer.circle(size: 48),
-            SizedBox(width: theme.spacingMD),
+            const SizedBox(width: 16.0),
           ],
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                UIProShimmer.text(height: theme.fontSizeBase),
+                UIProShimmer.text(height: 16.0),
                 if (shimmerShowSubtitle) ...[
-                  SizedBox(height: theme.spacingXS),
-                  UIProShimmer.text(width: 150, height: theme.fontSizeSmall),
+                  const SizedBox(height: 4.0),
+                  UIProShimmer.text(width: 150, height: 14.0),
                 ],
               ],
             ),
           ),
           if (shimmerShowTrailing) ...[
-            SizedBox(width: theme.spacingMD),
-            UIProShimmer.box(width: 60, height: 24),
+            const SizedBox(width: 16.0),
+            const UIProShimmer.box(width: 60, height: 24),
           ],
         ],
       ),
     );
   }
 
-  Widget _buildCardShimmer(BuildContext context, UIProThemeData theme) {
+  Widget _buildCardShimmer(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: theme.spacingSM),
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
       decoration: BoxDecoration(
-        color: theme.surfaceColor,
-        borderRadius: theme.defaultBorderRadius,
-        border: Border.all(color: theme.dividerColor),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12.0),
+        border: Border.all(color: Colors.grey[300]!),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          UIProShimmer.box(
+          const UIProShimmer.box(
             width: double.infinity,
             height: 120,
-            borderRadius: theme.borderRadius,
+            borderRadius: 12.0,
           ),
           Padding(
-            padding: EdgeInsets.all(theme.spacingMD),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                UIProShimmer.text(height: theme.fontSizeLarge),
-                SizedBox(height: theme.spacingSM),
+                UIProShimmer.text(height: 18.0),
+                SizedBox(height: 8.0),
                 UIProShimmer.text(),
-                SizedBox(height: theme.spacingXS),
+                SizedBox(height: 4.0),
                 UIProShimmer.text(width: 200),
               ],
             ),
@@ -366,10 +359,10 @@ class UIProListView extends StatelessWidget {
     );
   }
 
-  Widget _buildSimpleShimmer(BuildContext context, UIProThemeData theme) {
+  Widget _buildSimpleShimmer(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: theme.spacingSM),
-      child: UIProShimmer.text(height: theme.fontSizeBase),
+      padding: EdgeInsets.symmetric(vertical: 8.0),
+      child: UIProShimmer.text(height: 16.0),
     );
   }
 }
@@ -451,10 +444,9 @@ class UIProGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = UIProTheme.of(context);
-    final effectivePadding = padding ?? EdgeInsets.all(theme.spacingMD);
-    final effectiveMainAxisSpacing = mainAxisSpacing ?? theme.spacingSM;
-    final effectiveCrossAxisSpacing = crossAxisSpacing ?? theme.spacingSM;
+    final effectivePadding = padding ?? const EdgeInsets.all(16.0);
+    final effectiveMainAxisSpacing = mainAxisSpacing ?? 8.0;
+    final effectiveCrossAxisSpacing = crossAxisSpacing ?? 8.0;
 
     // Show shimmer while loading
     if (isLoading) {
@@ -497,11 +489,10 @@ class UIProGridView extends StatelessWidget {
   }
 
   Widget _defaultShimmerBuilder(BuildContext context, int index) {
-    final theme = UIProTheme.of(context);
-    return UIProShimmer.box(
+    return const UIProShimmer.box(
       width: double.infinity,
       height: double.infinity,
-      borderRadius: theme.borderRadius,
+      borderRadius: 12.0,
     );
   }
 }
@@ -539,46 +530,54 @@ class UIProEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = UIProTheme.of(context);
+    final materialTheme = Theme.of(context);
 
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(theme.spacingXL),
+        padding: const EdgeInsets.all(32.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             if (image != null)
               image!
             else if (icon != null)
-              Icon(icon, size: 64, color: theme.textSecondaryColor),
+              Icon(icon, size: 64, color: Colors.black54),
             if (title != null) ...[
-              SizedBox(height: theme.spacingMD),
+              const SizedBox(height: 16.0),
               Text(
                 title!,
-                style: theme.textStyle(
-                  fontSize: theme.fontSizeLarge,
-                  fontWeight: theme.fontWeightMedium,
-                ),
+                style: materialTheme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ) ??
+                    const TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w500,
+                    ),
                 textAlign: TextAlign.center,
               ),
             ],
             if (description != null) ...[
-              SizedBox(height: theme.spacingSM),
+              const SizedBox(height: 8.0),
               Text(
                 description!,
-                style: theme.textStyle(color: theme.textSecondaryColor),
+                style: materialTheme.textTheme.bodyMedium?.copyWith(
+                      color: Colors.black54,
+                    ) ??
+                    const TextStyle(
+                      color: Colors.black54,
+                    ),
                 textAlign: TextAlign.center,
               ),
             ],
             if (actionText != null && onAction != null) ...[
-              SizedBox(height: theme.spacingLG),
+              const SizedBox(height: 24.0),
               TextButton(
                 onPressed: onAction,
                 child: Text(
                   actionText!,
-                  style: theme.textStyle(
-                    color: theme.primaryColor,
-                    fontWeight: theme.fontWeightMedium,
+                  style: TextStyle(
+                    color: materialTheme.primaryColor,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
