@@ -25,21 +25,19 @@ class DrawDot extends StatelessWidget {
   final Color color;
 
   const DrawDot.circular({
-    Key? key,
+    super.key,
     required double dotSize,
     required this.color,
   })  : width = dotSize,
         height = dotSize,
-        circular = true,
-        super(key: key);
+        circular = true;
 
   const DrawDot.elliptical({
-    Key? key,
+    super.key,
     required this.width,
     required this.height,
     required this.color,
-  })  : circular = false,
-        super(key: key);
+  }) : circular = false;
 
   @override
   Widget build(BuildContext context) {
@@ -65,24 +63,22 @@ class BuildDot extends StatelessWidget {
   final AnimationController controller;
   final bool first;
   const BuildDot.first({
-    Key? key,
+    super.key,
     required this.color,
     required this.angle,
     required this.size,
     required this.interval,
     required this.controller,
-  })  : first = true,
-        super(key: key);
+  }) : first = true;
 
   const BuildDot.second({
-    Key? key,
+    super.key,
     required this.color,
     required this.angle,
     required this.size,
     required this.interval,
     required this.controller,
-  })  : first = false,
-        super(key: key);
+  }) : first = false;
 
   @override
   Widget build(BuildContext context) {

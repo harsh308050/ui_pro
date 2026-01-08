@@ -1,9 +1,8 @@
-import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 
 import 'curves.dart';
 
-typedef void UIProFluidNavBarButtonTappedCallback();
+typedef UIProFluidNavBarButtonTappedCallback = void Function();
 
 /// An interactive button within [UIProFluidNavBar]
 ///
@@ -16,7 +15,7 @@ typedef void UIProFluidNavBarButtonTappedCallback();
 ///  * [UIProFluidNavBarIcon]
 
 class UIProFluidNavBarItem extends StatefulWidget {
-  static const nominalExtent = const Size(64, 64);
+  static const nominalExtent = Size(64, 64);
 
   /// The path of the SVG asset
   final String? svgPath;
@@ -45,7 +44,7 @@ class UIProFluidNavBarItem extends StatefulWidget {
   /// The delay factor of the animations ( < 1 is faster, > 1 is slower)
   final double animationFactor;
 
-  UIProFluidNavBarItem(
+  const UIProFluidNavBarItem(
     this.svgPath,
     this.icon,
     this.selected,
@@ -54,8 +53,9 @@ class UIProFluidNavBarItem extends StatefulWidget {
     this.unselectedForegroundColor,
     this.backgroundColor,
     this.scaleFactor,
-    this.animationFactor,
-  )   : assert(scaleFactor >= 1.0),
+    this.animationFactor, {
+    super.key,
+  })  : assert(scaleFactor >= 1.0),
         assert(svgPath == null || icon == null,
             'Cannot provide both an iconPath and an icon.'),
         assert(!(svgPath == null && icon == null),
@@ -63,7 +63,7 @@ class UIProFluidNavBarItem extends StatefulWidget {
 
   @override
   State createState() {
-    return _UIProFluidNavBarItemState(selected);
+    return _UIProFluidNavBarItemState();
   }
 }
 
@@ -73,7 +73,7 @@ class _UIProFluidNavBarItemState extends State<UIProFluidNavBarItem>
   static const double _defaultOffset = 0;
   static const double _iconSize = 25;
 
-  bool _selected;
+  late bool _selected;
 
   late AnimationController _animationController;
   late Animation<double> _activeColorClipAnimation;
@@ -81,11 +81,11 @@ class _UIProFluidNavBarItemState extends State<UIProFluidNavBarItem>
   late Animation<double> _activatingAnimation;
   late Animation<double> _inactivatingAnimation;
 
-  _UIProFluidNavBarItemState(this._selected);
-
   @override
   void initState() {
     super.initState();
+
+    _selected = widget.selected;
 
     double waveRatio = 0.28;
     _animationController = AnimationController(
@@ -102,12 +102,12 @@ class _UIProFluidNavBarItemState extends State<UIProFluidNavBarItem>
       reverseCurve: Interval(0.7, 1.0, curve: Curves.easeInCirc),
     ));
 
-    var _animation = CurvedAnimation(
+    final animation = CurvedAnimation(
         parent: _animationController, curve: LinearPointCurve(waveRatio, 0.0));
 
     _yOffsetAnimation = Tween<double>(begin: _defaultOffset, end: _activeOffset)
         .animate(CurvedAnimation(
-      parent: _animation,
+      parent: animation,
       curve: ElasticOutCurve(0.38),
       reverseCurve: Curves.easeInCirc,
     ));
@@ -118,11 +118,11 @@ class _UIProFluidNavBarItemState extends State<UIProFluidNavBarItem>
       TweenSequenceItem(
           tween: ReverseTween<double>(activatingHalfTween), weight: 50.0),
     ]).animate(CurvedAnimation(
-      parent: _animation,
+      parent: animation,
       curve: Interval(0.0, 0.3),
     ));
     _inactivatingAnimation = ConstantTween<double>(1.0).animate(CurvedAnimation(
-      parent: _animation,
+      parent: animation,
       curve: Interval(0.3, 1.0),
     ));
 

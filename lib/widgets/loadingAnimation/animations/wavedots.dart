@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 
-import '../util/loadingUtil.dart';
+import '../util/loading_util.dart';
 
 class WaveDots extends StatefulWidget {
   final double size;
   final Color color;
 
   const WaveDots({
-    Key? key,
+    super.key,
     required this.size,
     required this.color,
-  }) : super(key: key);
+  });
 
   @override
-  _WaveDotsState createState() => _WaveDotsState();
+  WaveDotsState createState() => WaveDotsState();
 }
 
-class _WaveDotsState extends State<WaveDots>
+class WaveDotsState extends State<WaveDots>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 

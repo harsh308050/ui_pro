@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../util/loadingUtil.dart';
+import '../util/loading_util.dart';
 
 class Flickr extends StatefulWidget {
   final Color leftDotColor;
@@ -7,17 +7,17 @@ class Flickr extends StatefulWidget {
   final double size;
 
   const Flickr({
-    Key? key,
+    super.key,
     required this.leftDotColor,
     required this.rightDotColor,
     required this.size,
-  }) : super(key: key);
+  });
 
   @override
-  _FlickrState createState() => _FlickrState();
+  FlickrState createState() => FlickrState();
 }
 
-class _FlickrState extends State<Flickr> with SingleTickerProviderStateMixin {
+class FlickrState extends State<Flickr> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   final Cubic curves = Curves.ease;
 
@@ -103,7 +103,6 @@ class _BuildDot extends StatelessWidget {
   final AnimationController controller;
 
   const _BuildDot({
-    Key? key,
     required this.size,
     required this.color,
     required this.initialOffset,
@@ -111,7 +110,7 @@ class _BuildDot extends StatelessWidget {
     required this.interval,
     required this.visibility,
     required this.controller,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

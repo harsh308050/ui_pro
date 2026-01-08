@@ -13,7 +13,7 @@ class NormalTile extends StatelessWidget {
   final bool isElevated;
 
   const NormalTile({
-    Key? key,
+    super.key,
     required this.moveAnimation,
     required this.controller,
     required this.child,
@@ -23,7 +23,7 @@ class NormalTile extends StatelessWidget {
     required this.borderRadius,
     required this.color,
     required this.isElevated,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +71,7 @@ class NormalTile extends StatelessWidget {
                                   blurRadius: 2.0,
                                   color: ColorTween(
                                     begin: Colors.transparent,
-                                    end: Colors.black.withOpacity(0.25),
+                                    end: Colors.black.withValues(alpha: 0.25),
                                   )
                                       .animate(
                                         CurvedAnimation(

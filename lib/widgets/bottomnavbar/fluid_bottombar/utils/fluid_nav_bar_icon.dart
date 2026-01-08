@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 
 class UIProFluidNavBarIcon {
   /// The path of the SVG asset
-  @deprecated
+  @Deprecated('Use svgPath instead')
   final String? iconPath;
 
   /// The SVG path

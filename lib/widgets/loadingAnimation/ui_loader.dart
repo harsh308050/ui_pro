@@ -3,7 +3,7 @@ import './animations/wavedots.dart';
 import 'animations/flickr.dart';
 import 'animations/horizontaldots.dart';
 import 'animations/progressivedots.dart';
-import 'animations/hexgonDots.dart';
+import 'animations/hexagon_dots.dart';
 
 class UIProLoader {
   UIProLoader._();

@@ -539,7 +539,8 @@ class _UIProTextFieldState extends State<UIProTextField>
               fontWeight: FontWeight.w500,
               color: _isFocused
                   ? materialTheme.primaryColor
-                  : materialTheme.textTheme.bodySmall?.color?.withOpacity(0.6),
+                  : materialTheme.textTheme.bodySmall?.color
+                      ?.withValues(alpha: 0.6),
             )
             .merge(widget.labelStyle) ??
         TextStyle(

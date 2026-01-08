@@ -4,9 +4,9 @@ import './utils/fluid_nav_bar_item.dart';
 import './utils/fluid_nav_bar_style.dart';
 import 'package:flutter/material.dart';
 
-typedef void UIProFluidNavBarChangeCallback(int selectedIndex);
+typedef UIProFluidNavBarChangeCallback = void Function(int selectedIndex);
 
-typedef Widget UIProFluidNavBarItemBuilder(
+typedef UIProFluidNavBarItemBuilder = Widget Function(
     UIProFluidNavBarIcon icon, UIProFluidNavBarItem item);
 
 /// A widget to display a fluid navigation bar with icon buttons.
@@ -58,8 +58,8 @@ class UIProFluidNavBar extends StatefulWidget {
 
   final UIProFluidNavBarItemBuilder itemBuilder;
 
-  UIProFluidNavBar(
-      {Key? key,
+  const UIProFluidNavBar(
+      {super.key,
       required this.icons,
       this.onChange,
       this.style,
@@ -67,9 +67,8 @@ class UIProFluidNavBar extends StatefulWidget {
       this.scaleFactor = 1.2,
       this.defaultIndex = 0,
       UIProFluidNavBarItemBuilder? itemBuilder})
-      : this.itemBuilder = itemBuilder ?? _identityBuilder,
-        assert(icons.length > 1),
-        super(key: key);
+      : itemBuilder = itemBuilder ?? _identityBuilder,
+        assert(icons.length > 1);
 
   @override
   State createState() => _UIProFluidNavBarState();
@@ -126,7 +125,7 @@ class _UIProFluidNavBarState extends State<UIProFluidNavBar>
     const topPadding = 20.0;
     const totalHeight = barHeight + topPadding;
 
-    return Container(
+    return SizedBox(
       width: appSize.width,
       height: totalHeight,
       child: Stack(

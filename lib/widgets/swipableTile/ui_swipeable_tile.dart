@@ -56,7 +56,7 @@ class UIProSwipeableTile extends StatefulWidget {
   final SwipedCallback onSwiped;
 
   /// Gives the app an opportunity to confirm or veto a pending swipe.
-  /// If the returned Future<bool?> completes to false or null [onSwiped]
+  /// If the returned `Future<bool?>` completes to false or null `onSwiped`
   /// callbacks will not run.
   final ConfirmSwipeCallback? confirmSwipe;
 
@@ -70,7 +70,7 @@ class UIProSwipeableTile extends StatefulWidget {
 
   ///For basic swipe to dismiss. With slight elevation.
   ///
-  /// The [key] argument must not be null because [UIProSwipeableTile]s are commonly
+  /// The `key` argument must not be null because `UIProSwipeableTile`s are commonly
   /// used in lists and removed from the list when swiped. Without keys, the
   /// default behavior is to sync widgets based on their index in the list,
   /// which means the item after the swiped item would be synced with the
@@ -198,10 +198,10 @@ class UIProSwipeableTile extends StatefulWidget {
         super(key: key);
 
   @override
-  _UIProSwipeableTileState createState() => _UIProSwipeableTileState();
+  UIProSwipeableTileState createState() => UIProSwipeableTileState();
 }
 
-class _UIProSwipeableTileState extends State<UIProSwipeableTile>
+class UIProSwipeableTileState extends State<UIProSwipeableTile>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   AnimationController? _moveController;
   late Animation<Offset> _moveAnimation;
@@ -355,7 +355,9 @@ class _UIProSwipeableTileState extends State<UIProSwipeableTile>
     SwipeDirection flingDirection;
     // Verify that the fling is in the generally right direction and fast enough.
     if (vx.abs() - vy.abs() < _kMinFlingVelocityDelta ||
-        vx.abs() < _kMinFlingVelocity) return _FlingGestureKind.none;
+        vx.abs() < _kMinFlingVelocity) {
+      return _FlingGestureKind.none;
+    }
     assert(vx != 0.0);
     flingDirection = _extentToDirection(vx);
 
@@ -562,23 +564,23 @@ class _UIProSwipeableTileState extends State<UIProSwipeableTile>
             moveAnimation: _moveAnimation,
             controller: _moveController!,
             background: buildBackground,
-            child: widget.child,
             direction: direction,
             padding: padding,
             shadow: shadow,
             borderRadius: borderRadius,
             color: color,
+            child: widget.child,
           )
         : NormalTile(
             moveAnimation: _moveAnimation,
             controller: _moveController!,
             background: buildBackground,
-            child: widget.child,
             direction: direction,
             padding: padding,
             borderRadius: borderRadius,
             color: color,
             isElevated: isElevated,
+            child: widget.child,
           );
     // We are not resizing but we may be being dragging in widget.direction.
     return GestureDetector(

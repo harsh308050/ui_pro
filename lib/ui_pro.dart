@@ -130,5 +130,5 @@ export 'widgets/bottomnavbar/ui_normal_bottombar.dart';
 export 'widgets/doubletapexit/ui_doubletap_exit.dart';
 
 // Swipeable Tile
-export 'widgets/swipableTile/ui_swipableTile.dart';
+export 'widgets/swipableTile/ui_swipeable_tile.dart';
 export 'widgets/swipableTile/enums.dart';

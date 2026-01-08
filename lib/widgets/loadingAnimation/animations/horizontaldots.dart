@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import '../util/loadingUtil.dart';
+import '../util/loading_util.dart';
 
 class HorizontalRotatingDots extends StatefulWidget {
   final double size;
   final Color color;
 
   const HorizontalRotatingDots({
-    Key? key,
+    super.key,
     required this.size,
     required this.color,
-  }) : super(key: key);
+  });
 
   @override
-  _HorizontalRotatingDotsState createState() => _HorizontalRotatingDotsState();
+  HorizontalRotatingDotsState createState() => HorizontalRotatingDotsState();
 }
 
-class _HorizontalRotatingDotsState extends State<HorizontalRotatingDots>
+class HorizontalRotatingDotsState extends State<HorizontalRotatingDots>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<Offset> _leftDotTranslate;

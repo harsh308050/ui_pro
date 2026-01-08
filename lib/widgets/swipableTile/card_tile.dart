@@ -14,7 +14,7 @@ class CardTile extends StatelessWidget {
   final Color color;
 
   const CardTile({
-    Key? key,
+    super.key,
     required this.moveAnimation,
     required this.controller,
     required this.child,
@@ -24,7 +24,7 @@ class CardTile extends StatelessWidget {
     required this.shadow,
     required this.borderRadius,
     required this.color,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

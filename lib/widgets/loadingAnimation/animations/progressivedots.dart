@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import '../util/loadingUtil.dart';
+import '../util/loading_util.dart';
 
 class ProgressiveDots extends StatefulWidget {
   final double size;
   final Color color;
 
   const ProgressiveDots({
-    Key? key,
+    super.key,
     required this.color,
     required this.size,
-  }) : super(key: key);
+  });
 
   @override
-  _ProgressiveDotsState createState() => _ProgressiveDotsState();
+  ProgressiveDotsState createState() => ProgressiveDotsState();
 }
 
-class _ProgressiveDotsState extends State<ProgressiveDots>
+class ProgressiveDotsState extends State<ProgressiveDots>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 

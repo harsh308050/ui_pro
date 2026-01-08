@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
-import '../util/loadingUtil.dart';
+import '../util/loading_util.dart';
 
 class HexagonDots extends StatefulWidget {
   final double size;
   final Color color;
 
   const HexagonDots({
-    Key? key,
+    super.key,
     required this.size,
     required this.color,
-  }) : super(key: key);
+  });
 
   @override
-  _BuildSpinnerState createState() => _BuildSpinnerState();
+  HexagonDotsState createState() => HexagonDotsState();
 }
 
-class _BuildSpinnerState extends State<HexagonDots>
+class HexagonDotsState extends State<HexagonDots>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 

@@ -202,7 +202,7 @@ class UIProBottomNav extends StatelessWidget {
         boxShadow: elevation > 0
             ? [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: elevation,
                   offset: const Offset(0, -2),
                 ),
@@ -259,7 +259,7 @@ class UIProBottomNav extends StatelessWidget {
           borderRadius: BorderRadius.circular(16.0),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.15),
+              color: Colors.black.withValues(alpha: 0.15),
               blurRadius: elevation * 2,
               offset: const Offset(0, 4),
             ),
@@ -492,7 +492,7 @@ class _UIProFluidBottomNavWrapper extends UIProBottomNav {
   final double scaleFactor;
 
   const _UIProFluidBottomNavWrapper({
-    Key? key,
+    super.key,
     required super.items,
     required super.currentIndex,
     required super.onChanged,
@@ -501,7 +501,7 @@ class _UIProFluidBottomNavWrapper extends UIProBottomNav {
     super.unselectedColor,
     this.animationFactor = 1.0,
     this.scaleFactor = 1.2,
-  }) : super(key: key);
+  }) : super();
 
   @override
   Widget build(BuildContext context) {
