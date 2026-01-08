@@ -1,37 +1,99 @@
-/// UI Pro - A collection of customizable Flutter UI widgets.
+/// # UI Pro - Comprehensive Flutter UI Component Library
 ///
-/// A comprehensive UI kit that provides production-ready widgets
-/// that work seamlessly with Flutter's Material Design theming.
+/// A production-ready Flutter UI component library that seamlessly integrates
+/// with Material Theme. Build beautiful, consistent apps faster with smart
+/// widgets, built-in animations, and extensive customization options.
 ///
-/// ## Getting Started
+/// ## 🎯 Key Features
 ///
-/// Import and use the widgets in your app:
+/// ### Smart Widgets
+/// - **UIProButton** - Loading states, 3 variants (filled, outlined, text)
+/// - **UIProIconButton** - Circular icon buttons with loading states
+/// - **UIProTextField** - Built-in validation (email, password, phone)
+/// - **UIProListView** - Automatic shimmer loading and empty states
+/// - **UIProSwipeableTile** - Swipe-to-delete with customizable actions
+/// - **UIProDoubleTapExit** - Exit confirmation (snackbar or dialog)
+///
+/// ### Navigation Components
+/// - **UIProAppBar** - Customizable app bar with actions and badges
+/// - **UIProBottomNav** - 3 styles: Standard, Floating, Fluid (wave animation)
+///
+/// ### Loading & Feedback
+/// - **UIProShimmer** - Box, circle, text, list, and grid shimmers
+/// - **UIProLoader** - 5 animation styles for loading indicators
+///
+/// ## 📦 Installation
+///
+/// ```yaml
+/// dependencies:
+///   ui_pro: ^1.0.2
+/// ```
+///
+/// ## 🚀 Quick Start
 ///
 /// ```dart
-/// import 'package:ui_pro/ui_pro.dart';
 /// import 'package:flutter/material.dart';
+/// import 'package:ui_pro/ui_pro.dart';
 ///
-/// // Use any widget from the package
+/// // Button with loading state
 /// UIProButton(
-///   text: "Click Me",
-///   onPressed: () {},
+///   text: "Login",
+///   isLoading: isLoading,
+///   onPressed: () => handleLogin(),
+/// )
+///
+/// // Email field with validation
+/// UIProTextField.email(
+///   controller: emailController,
+///   validateNotEmpty: true,
+/// )
+///
+/// // List with shimmer loading
+/// UIProListView(
+///   isLoading: isLoading,
+///   itemCount: items.length,
+///   itemBuilder: (context, index) => YourListItem(items[index]),
+/// )
+///
+/// // Bottom navigation with wave animation
+/// UIProBottomNav.fluid(
+///   items: [
+///     UIProBottomNavItem(icon: Icons.home, label: "Home"),
+///     UIProBottomNavItem(icon: Icons.search, label: "Search"),
+///   ],
+///   currentIndex: selectedIndex,
+///   onChanged: (index) => setState(() => selectedIndex = index),
 /// )
 /// ```
 ///
-/// ## Features
+/// ## 🎨 Material Theme Compatible
 ///
-/// - **Smart Widgets**: Loading buttons, text fields with validation, lists with shimmer
-/// - **Loading Animations**: Various loading indicator styles
-/// - **Navigation**: App bars and bottom navigation
-/// - **Shimmer**: Loading shimmer effects
+/// All widgets automatically adapt to your app's Material Theme while
+/// providing granular customization options for colors, sizes, and styles.
 ///
-/// ## Design Principles
+/// ```dart
+/// MaterialApp(
+///   theme: ThemeData(
+///     primaryColor: Colors.blue,
+///     // Widgets automatically use your theme
+///   ),
+///   home: HomePage(),
+/// )
+/// ```
 ///
-/// - Works with Material Theme out of the box
-/// - No forced state management
-/// - No forced navigation (callbacks only)
-/// - Highly customizable with overrides
-/// - Lightweight and modular
+/// ## 🔌 State Management Agnostic
+///
+/// Works seamlessly with any state management solution:
+/// - setState, Provider, Riverpod, BLoC, GetX, MobX, Redux
+///
+/// ## 📚 Documentation
+///
+/// Visit the [GitHub repository](https://github.com/harsh308050/ui_pro)
+/// for comprehensive documentation, examples, and API reference.
+///
+/// ## 📄 License
+///
+/// MIT License - see LICENSE file for details.
 library ui_pro;
 
 // ─────────────────────────────────────────────────────────────────────
